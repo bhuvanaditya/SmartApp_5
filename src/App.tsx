@@ -1,19 +1,3 @@
-/**
- * Copyright 2024 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import { useRef, useState } from "react";
 import "./App.scss";
 import { LiveAPIProvider } from "./contexts/LiveAPIContext";
@@ -64,31 +48,34 @@ function App() {
             <LiveAPIProvider url={uri} apiKey={API_KEY}>
               <Header />
               <NavAssistant />
-              <Routes>
-                <Route path="/" element={<All />} />
-                <Route path="/all" element={<All />} />
-                <Route path="/dog" element={<Dog />} />
-                <Route path="/instore" element={<InStore />} />
-                <Route path="/product/:id" element={<ProductDetail />} />
-                <Route path="/baby-boot-jean" element={<BabyBootJean />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/order-payment-confirmation" element={<OrderPaymentConfirmation />} />
-                <Route path="/profile" element={
-                  <ProtectedRoute>
-                    <Profile />
-                  </ProtectedRoute>
-                } />
-                <Route path="/personalized" element={
-                  <ProtectedRoute>
-                    <PersonalizedPage />
-                  </ProtectedRoute>
-                } />
-                <Route path="/personalized-items/:id" element={<PersonalizedPage />} />
-                <Route path="/modern-rib-pullover" element={<ModernRibPullover />} />
-                <Route path="/straw-panama-hat" element={<StrawPanamaHat />} />
-                <Route path="/gap-logo-tote" element={<GapLogoTote />} />
-                <Route path="/personalized/:id" element={<PersonalizedProductDetail />} />
-              </Routes>
+              <div className="main-content">
+                <Routes>
+                  <Route path="/" element={<All />} />
+                  <Route path="/all" element={<All />} />
+                  <Route path="/dog" element={<Dog />} />
+              
+                  <Route path="/instore" element={<InStore />} />
+                  <Route path="/product/:id" element={<ProductDetail />} />
+                  <Route path="/baby-boot-jean" element={<BabyBootJean />} />
+                  <Route path="/cart" element={<Cart />} />
+                  <Route path="/order-payment-confirmation" element={<OrderPaymentConfirmation />} />
+                  <Route path="/profile" element={
+                    <ProtectedRoute>
+                      <Profile />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/personalized" element={
+                    <ProtectedRoute>
+                      <PersonalizedPage />
+                    </ProtectedRoute>
+                  } />
+                  <Route path="/personalized-items/:id" element={<PersonalizedPage />} />
+                  <Route path="/modern-rib-pullover" element={<ModernRibPullover />} />
+                  <Route path="/straw-panama-hat" element={<StrawPanamaHat />} />
+                  <Route path="/gap-logo-tote" element={<GapLogoTote />} />
+                  <Route path="/personalized/:id" element={<PersonalizedProductDetail />} />
+                </Routes>
+              </div>
               <div className="video-container">
                 <video ref={videoRef} autoPlay muted playsInline />
                 <ControlTray

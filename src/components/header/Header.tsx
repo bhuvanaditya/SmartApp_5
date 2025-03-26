@@ -26,7 +26,7 @@ export const Header = () => {
               to="/dog"
               className={location.pathname === '/dog' ? 'active' : ''}
             >
-              Dog
+              Products
             </Link>
           </li>
           <li>
