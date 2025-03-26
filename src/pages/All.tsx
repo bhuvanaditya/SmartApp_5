@@ -3,7 +3,6 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import './All.scss';
 
-// Define correct interfaces
 interface CategoryItem {
   name: string;
   image: string;
@@ -11,36 +10,40 @@ interface CategoryItem {
   productId?: number;
   category?: string;
 }
-
 interface PickItem {
   points: string;
   category: string;
   image: string;
+  link: string;
   productId?: number;
   targetCategory?: string;
+  
 }
-
 interface DealItem {
   title: string;
   image: string;
   link: string;
-  category: string;
-  productId?: number;
-  targetCategory?: string;
+  
+  
+  category?: string;
 }
 
-// Popular picks data organized by category
 const PopularPicks: Record<string, PickItem[]> = {
   pet: [
     {
       points: "5X",
       category: "All dog food, any brand",
-      image: "https://images.unsplash.com/photo-1623387641168-d9803ddd3f35?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nJTIwZm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
+      image: "https://images.unsplash.com/photo-1623387641168-d9803ddd3f35?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nJTIwZm9vZHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+     
+      targetCategory: "dog",
+      link:"/dog"
     },
     {
       points: "5X",
       category: "All cat food & treats, any brand",
-      image: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y2F0JTIwdHJlYXRzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60"
+      image: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y2F0JTIwdHJlYXRzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
+      targetCategory: "dog",
+      link:"/dog"
     }
   ],
   electronics: [
@@ -48,15 +51,15 @@ const PopularPicks: Record<string, PickItem[]> = {
       points: "3X",
       category: "Smartphones & Accessories",
       image: "https://images.unsplash.com/photo-1598327105666-5b89351aff97?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c21hcnRwaG9uZXN8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-      productId: 101,
-      targetCategory: "electronics"
+      targetCategory: "electronics",
+      link:"/electronics",
     },
     {
       points: "3X",
       category: "Laptops & Computers",
       image: "https://images.unsplash.com/photo-1602080858428-57174f9431cf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fGxhcHRvcHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-      productId: 103,
-      targetCategory: "electronics"
+      targetCategory: "electronics",
+      link:"/electronics",
     }
   ],
   clothing: [
@@ -64,20 +67,19 @@ const PopularPicks: Record<string, PickItem[]> = {
       points: "2X",
       category: "Men's Fashion",
       image: "https://images.unsplash.com/photo-1617137968427-85924c800a22?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8bWVucyUyMGZhc2hpb258ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-      productId: 201,
-      targetCategory: "clothing"
+      targetCategory: "clothing",
+      link:"/clothing",
     },
     {
       points: "2X",
       category: "Women's Fashion",
       image: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8d29tZW5zJTIwZmFzaGlvbnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-      productId: 202,
-      targetCategory: "clothing"
+      targetCategory: "clothing",
+      link:"/clothing",
     }
   ]
 };
 
-// Shop by category data
 const Categories: Record<string, CategoryItem[]> = {
   pet: [
     {
@@ -97,15 +99,14 @@ const Categories: Record<string, CategoryItem[]> = {
     {
       name: "Smartphones",
       image: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8cGhvbmV8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-      link: "/dog",
-   
+      link: "/electronics",
+      
       category: "electronics"
     },
     {
       name: "Laptops",
       image: "https://images.unsplash.com/photo-1611186871348-b1ce696e52c9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OXx8bGFwdG9wfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
       link: "/electronics",
-   
       category: "electronics"
     }
   ],
@@ -113,77 +114,68 @@ const Categories: Record<string, CategoryItem[]> = {
     {
       name: "Men",
       image: "https://images.unsplash.com/photo-1516826957135-700dedea698c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTR8fG1lbiUyMGZhc2hpb258ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60",
-      link: "/clothing",
-      
+      link:  "clothing",
       category: "clothing"
     },
     {
       name: "Women",
       image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8d29tZW4lMjBmYXNoaW9ufGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-      link: "/clothing",
-      
+      link:  "clothing",
       category: "clothing"
     }
   ]
 };
 
-// Deals and offers data
 const Deals: DealItem[] = [
   {
     title: "Save 30% on select dog toys",
     image: "https://images.unsplash.com/photo-1560743641-3914f2c45636?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8ZG9nJTIwdG95c3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
     link: "/dog",
-    category: "pet",
-    productId: 5,
-    targetCategory: "dog"
+    
+    category: "dog"
   },
   {
     title: "Buy 1, Get 1 50% off cat treats",
     image: "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y2F0JTIwdHJlYXRzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=800&q=80",
-    link: "/category/cat-treats",
-    category: "pet"
+    link: "/dog",
+    
+    category: "dog"
   },
   {
     title: "Up to 40% off selected smartphones",
     image: "https://images.unsplash.com/photo-1609081219090-a6d81d3085bf?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHNtYXJ0cGhvbmVzfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-    link: "/dog",
-    category: "electronics",
-    productId: 101,
-    targetCategory: "electronics"
+    link: "/electronics",
+    
+    category: "electronics"
   },
   {
     title: "Headphones - Buy one get 30% off second pair",
     image: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8aGVhZHBob25lc3xlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
-    link: "/dog",
-    category: "electronics",
-    productId: 102,
-    targetCategory: "electronics"
+    link: "/electronics",
+    
+    category: "electronics"
   },
   {
     title: "Spring Collection - 25% off new arrivals",
     image: "https://images.unsplash.com/photo-1622519407650-3df9883f76a5?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTZ8fHNwcmluZyUyMGNsb3RoaW5nfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-    link: "/dog",
-    category: "clothing",
-    productId: 201,
-    targetCategory: "clothing"
+    link: "/clothing",
+    
+    category: "clothing"
   },
   {
     title: "Clearance - Up to 70% off winter styles",
     image: "https://images.unsplash.com/photo-1515434126000-961d90ff09db?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8MTB8fHdpbnRlciUyMGNsb3RoaW5nfGVufDB8fDB8fA%3D%3D&auto=format&fit=crop&w=500&q=60",
-    link: "/dog",
-    category: "clothing",
-    productId: 203,
-    targetCategory: "clothing"
+    link: "/clothing",
+    
+    category: "clothing"
   }
 ];
 
-// Combined categories
 const AllCategories = [
   ...Categories.pet,
   ...Categories.electronics,
   ...Categories.clothing
 ];
-
 const All: React.FC = () => {
   const navigate = useNavigate();
   const { isAuthenticated, loginWithPopup } = useAuth0();
@@ -191,7 +183,12 @@ const All: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [popCategoryPicksTitle, setPopCategoryPicksTitle] = useState("All Departments");
-
+  
+  // New states for footer detail sections
+  const [showCustomerService, setShowCustomerService] = useState(false);
+  const [showAboutSmartBuy, setShowAboutSmartBuy] = useState(false);
+  const [showResources, setShowResources] = useState(false);
+  
   useEffect(() => {
     if (activeTab === "pet") {
       setPopCategoryPicksTitle("Pets");
@@ -203,13 +200,31 @@ const All: React.FC = () => {
       setPopCategoryPicksTitle("All Departments");
     }
   }, [activeTab]);
+  
+  // Toggle functions for footer sections
+  const toggleCustomerService = () => {
+    setShowCustomerService(!showCustomerService);
+    setShowAboutSmartBuy(false);
+    setShowResources(false);
+  };
 
-  // Filter deals based on active tab
+  const toggleAboutSmartBuy = () => {
+    setShowAboutSmartBuy(!showAboutSmartBuy);
+    setShowCustomerService(false);
+    setShowResources(false);
+  };
+
+  const toggleResources = () => {
+    setShowResources(!showResources);
+    setShowCustomerService(false);
+    setShowAboutSmartBuy(false);
+  };
+  
+ 
   const filteredDeals = activeTab === "all" 
     ? Deals 
     : Deals.filter(deal => deal.category === activeTab);
 
-  // Get popular picks based on active tab
   const getPopularPicks = () => {
     if (activeTab === "all") {
       return [
@@ -222,7 +237,6 @@ const All: React.FC = () => {
     }
   };
 
-  // Get categories based on active tab
   const getCategories = () => {
     if (activeTab === "all") {
       return AllCategories;
@@ -230,11 +244,10 @@ const All: React.FC = () => {
       return Categories[activeTab as keyof typeof Categories] || [];
     }
   };
-
-  // Carefully designed navigation function to directly link to product details in the Dog component
+  
   const handleNavigation = (item: any) => {
     if (item.productId) {
-      // Navigate to product using product ID and proper category
+
       const category = item.targetCategory || item.category || 
                        (item.productId >= 100 && item.productId < 200 ? 'electronics' : 
                        item.productId >= 200 ? 'clothing' : 'dog');
@@ -246,22 +259,19 @@ const All: React.FC = () => {
         }
       });
     } else {
-      // Default navigation
+    
       navigate(item.link || '/dog');
     }
   };
 
-  // Tab change handler
   const handleTabChange = (tab: string) => {
     setActiveTab(tab);
   };
-
   if (loading) return <div className="loading-message">Loading products...</div>;
   if (error) return <div className="error-message">Error: {error}</div>;
-
   return (
     <div className="home-page">
-      {/* Header with Logo */}
+ 
       <header className="site-header">
         <div className="header-container">
           <div className="logo-container">
@@ -313,8 +323,7 @@ const All: React.FC = () => {
           </div>
         </div>
       </header>
-
-      {/* Popular Categories Section */}
+ 
       <section className="popular-picks">
         <h2>Popular Categories in {popCategoryPicksTitle}</h2>
         <div className="picks-grid">
@@ -336,8 +345,7 @@ const All: React.FC = () => {
           ))}
         </div>
       </section>
-
-      {/* Shop by Category Section */}
+  
       <section className="shop-by-category">
         <h2>Shop by Category</h2>
         <div className="categories-grid">
@@ -356,7 +364,6 @@ const All: React.FC = () => {
         </div>
       </section>
 
-      {/* Hot Deals Section */}
       <section className="deals-section">
         <h2>Hot Deals & Offers</h2>
         <div className="deals-grid">
@@ -385,8 +392,7 @@ const All: React.FC = () => {
           ))}
         </div>
       </section>
-
-      {/* Newsletter Signup */}
+     
       <section className="newsletter-signup">
         <div className="signup-content">
           <h2>Get SmartBuy News & Offers</h2>
@@ -397,12 +403,20 @@ const All: React.FC = () => {
           </form>
         </div>
       </section>
-
-      {/* Footer */}
+     
       <footer className="site-footer">
         <div className="footer-container">
           <div className="footer-column">
-            <h3>Customer Service</h3>
+            <h3 onClick={toggleCustomerService} className="footer-toggle">Customer Service</h3>
+            {showCustomerService && (
+              <div className="footer-detail-section">
+                <h4>How We Can Help You</h4>
+                <p>Our Customer Service team is available 24/7 to assist you with any questions or concerns about your orders, shipping, returns, and more.</p>
+                <p>Contact us by phone: 1-800-SMARTBUY</p>
+                <p>Email: support@smartbuy.com</p>
+                <p>Live Chat: Available on our website Monday-Friday, 8AM-8PM ET</p>
+              </div>
+            )}
             <ul>
               <li><a href="/contact">Contact Us</a></li>
               <li><a href="/order-status">Order Status</a></li>
@@ -411,7 +425,15 @@ const All: React.FC = () => {
             </ul>
           </div>
           <div className="footer-column">
-            <h3>About SmartBuy</h3>
+            <h3 onClick={toggleAboutSmartBuy} className="footer-toggle">About SmartBuy</h3>
+            {showAboutSmartBuy && (
+              <div className="footer-detail-section">
+                <h4>Who We Are</h4>
+                <p>Founded in 2010, SmartBuy has grown to become one of the leading e-commerce platforms in the country.</p>
+                <p>Our mission is to provide customers with quality products at competitive prices, while offering an exceptional shopping experience.</p>
+                <p>We currently have over 50 physical stores nationwide and ship to all 50 states.</p>
+              </div>
+            )}
             <ul>
               <li><a href="/about">Our Story</a></li>
               <li><a href="/careers">Careers</a></li>
@@ -420,7 +442,15 @@ const All: React.FC = () => {
             </ul>
           </div>
           <div className="footer-column">
-            <h3>Resources</h3>
+            <h3 onClick={toggleResources} className="footer-toggle">Resources</h3>
+            {showResources && (
+              <div className="footer-detail-section">
+                <h4>Helpful Resources</h4>
+                <p>Explore our blog for product reviews, buying guides, and the latest trends in shopping.</p>
+                <p>Download our mobile app for exclusive deals and easy shopping on the go.</p>
+                <p>Join SmartBuy Rewards to earn points on every purchase and unlock special perks and discounts.</p>
+              </div>
+            )}
             <ul>
               <li><a href="/blog">SmartBuy Blog</a></li>
               <li><a href="/app">Download Our App</a></li>

@@ -15,6 +15,8 @@ import { OrderPaymentConfirmation } from './pages/OrderPaymentConfirmation';
 import { Profile } from './pages/Profile';
 import All from './pages/All';
 import Dog from './pages/Dog';
+import Clothing from "./pages/Clothing";
+import Electronics from "./pages/Electronics";
 import { Auth0ProviderWithNavigate } from './auth/Auth0ProviderWithNavigate';
 import { ProtectedRoute } from './auth/ProtectedRoute';
 import PersonalizedPage from './pages/PersonalizedPage';
@@ -53,6 +55,8 @@ function App() {
                   <Route path="/" element={<All />} />
                   <Route path="/all" element={<All />} />
                   <Route path="/dog" element={<Dog />} />
+                  <Route path="/clothing" element={<Clothing />} />
+                  <Route path="/electronics" element={<Electronics />} />
               
                   <Route path="/instore" element={<InStore />} />
                   <Route path="/product/:id" element={<ProductDetail />} />
